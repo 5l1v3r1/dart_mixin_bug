@@ -6,6 +6,6 @@ class PassRoute {
   PassRouteFunction handlerFunction;
 
   Future<bool> handle(RouteRequest request) {
-    return handlerFunction(request).then((_) => true);
+    return new Future(() => true);
   }
 }
