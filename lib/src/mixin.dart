@@ -1,3 +1,3 @@
-part of web_router;
+part of mixin_bug;
 
 class LastPathRoute = PathRoute with LastRoute;
