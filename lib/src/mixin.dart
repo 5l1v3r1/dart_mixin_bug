@@ -1,3 +1,3 @@
 part of mixin_bug;
 
-class LastPathRoute = PathRoute with LastRoute;
+class ClassC = ClassA with ClassB;
