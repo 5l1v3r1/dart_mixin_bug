@@ -1,35 +1,45 @@
-# Overview
+# Trigger the bug
 
-**router** is a simple and expandable way to route HTTP requests.
+Run these commands:
 
-The library aims to provide convenience when you want it, and expandability when you need it. On one hand, the `Router` class provides convenient methods like `get` and `post` to let you register request handlers in one line of code. On the other hand, it has the `add` and `remove` methods so you can drop in custom routing objects anywhere in the stack.
+    git clone https://github.com/unixpickle/dart_mixin_bug.git
+    cd dart_mixin_bug
+    dartanalyzer lib/mixin_bug.dart
 
-# Example
+I get an exception:
 
-You can create a simple web server which hosts one page, "/a.txt", as follows:
+    NoSuchMethodError: method not found: 'substitute2'
+    Receiver: null
+    Arguments: [_List len:0, _List len:0]
+    #0      Object.noSuchMethod (dart:core-patch/object_patch.dart:45)
+    #1      TypeResolverVisitor._createImplicitContructor (package:analyzer/src/generated/resolver.dart:23556)
+    #2      TypeResolverVisitor.visitClassTypeAlias (package:analyzer/src/generated/resolver.dart:23035)
+    #3      ClassTypeAlias.accept (package:analyzer/src/generated/ast.dart:3798)
+    #4      NodeList.accept (package:analyzer/src/generated/ast.dart:19469)
+    #5      CompilationUnit.visitChildren (package:analyzer/src/generated/ast.dart:4272)
+    ...
 
-    import 'dart:io';
-    import 'package:web_router/web_router.dart';
+So, yeah, it screws up the Dart Editor and makes me sad.
+
+# The underlying bug
+
+If I have a main library file like this:
+
+    library mylib;
     
-    void main() {
-      Router router = new Router();
-      router.get('/a.txt', (RouteRequest r) {
-        return r.response..write('hey')..close();
-      });
-      HttpServer.bind('localhost', 1337).then((HttpServer server) {
-        server.listen(router.httpHandler);
-      });
+    part 'crash_analyzer.dart';
+    
+    class ClassA {
+      ClassA(_) {}
     }
 
-# TODO
+And a secondary file `crash_analyzer.dart`:
 
-I want to implement these features and test the stability of this library before calling it version 0.1.0.
+    part of mylib;
+    class ClassB = ClassA;
 
- * Stream-based listening system that respects Zones
- * Built-in static file server
- * Support for cookies and sessions
- * (Pontentially) support for websockets
+Then the analyzer will fail. The analyzer doesn't crash if `crash_analyzer.dart` is inlined instead of being included with the `part` directive.
 
-# Inspiration
+# Workaround
 
-**router** is partly inspired by [express.js](https://www.npmjs.org/package/express). However, express is not object-oriented and specifically future-oriented the way **router** is.
+For now, you'll just have to do your mixin declarations and other `class ... = ...` stuff in the main file for your library.
