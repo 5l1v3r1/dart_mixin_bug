@@ -27,8 +27,5 @@ import 'dart:io';
 import 'dart:async';
 
 part 'src/router.dart';
-part 'src/route.dart';
-part 'src/request.dart';
 part 'src/path_route.dart';
 part 'src/last_route.dart';
-part 'src/pass_route.dart';

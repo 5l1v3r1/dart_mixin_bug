@@ -1,6 +1,6 @@
 part of web_router;
 
-abstract class PathRoute extends Route {
+abstract class PathRoute {
   final String path;
   final String method;
   final bool caseSensitive;
