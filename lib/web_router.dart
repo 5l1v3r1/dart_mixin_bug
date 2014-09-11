@@ -25,7 +25,6 @@ library web_router;
 
 import 'dart:io';
 import 'dart:async';
-import 'package:path/path.dart' as path_library;
 
 part 'src/router.dart';
 part 'src/route.dart';
@@ -33,5 +32,3 @@ part 'src/request.dart';
 part 'src/path_route.dart';
 part 'src/last_route.dart';
 part 'src/pass_route.dart';
-part 'src/dart2js_route.dart';
-part 'src/dart2js_path_route.dart';
