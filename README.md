@@ -1,5 +1,7 @@
 # Trigger the bug
 
+This bug occurs in Dart version 1.6.0.
+
 Run these commands:
 
     git clone https://github.com/unixpickle/dart_mixin_bug.git
