@@ -23,22 +23,7 @@ So, yeah, it screws up the Dart Editor and makes me sad.
 
 # The underlying bug
 
-If I have a main library file like this:
-
-    library mylib;
-    
-    part 'crash_analyzer.dart';
-    
-    class ClassA {
-      ClassA(_) {}
-    }
-
-And a secondary file `crash_analyzer.dart`:
-
-    part of mylib;
-    class ClassB = ClassA;
-
-Then the analyzer will fail. The analyzer doesn't crash if `crash_analyzer.dart` is inlined instead of being included with the `part` directive.
+The analyzer crashes when a file performs a mixin application between classes that aren't declared in that file.
 
 # Workaround
 
